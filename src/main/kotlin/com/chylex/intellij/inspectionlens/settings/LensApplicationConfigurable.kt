@@ -87,6 +87,9 @@ class LensApplicationConfigurable : BoundConfigurable("Inspection Lens"), Config
 				row("Max description length:") {
 					intTextField(LensSettingsState.MAX_DESCRIPTION_LENGTH_RANGE, keyboardStep = 10).bindIntText(settings::maxDescriptionLength)
 				}
+				row("Background opacity") {
+					intTextField(LensSettingsState.BACKGROUND_OPACITY_RANGE, keyboardStep = 1).bindIntText(settings::backgroundOpacity)
+				}
 			}
 			
 			group("Behavior") {

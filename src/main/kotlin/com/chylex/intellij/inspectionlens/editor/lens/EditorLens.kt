@@ -17,7 +17,7 @@ internal class EditorLens private constructor(private var inlay: EditorLensInlay
 		
 		if (lineBackground.isInvalid || oldSeverity != severity) {
 			lineBackground.hide(editor)
-			lineBackground = EditorLensLineBackground.show(editor, info)
+			lineBackground = EditorLensLineBackground.show(editor, info, settings)
 		}
 		
 		return true
@@ -35,7 +35,7 @@ internal class EditorLens private constructor(private var inlay: EditorLensInlay
 	companion object {
 		fun show(editor: Editor, info: HighlightInfo, settings: LensSettingsState): EditorLens? {
 			val inlay = EditorLensInlay.show(editor, info, settings) ?: return null
-			val lineBackground = EditorLensLineBackground.show(editor, info)
+			val lineBackground = EditorLensLineBackground.show(editor, info, settings)
 			val severity = LensSeverity.from(info.severity)
 			return EditorLens(inlay, lineBackground, severity)
 		}

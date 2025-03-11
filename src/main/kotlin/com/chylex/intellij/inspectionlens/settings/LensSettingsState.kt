@@ -22,11 +22,13 @@ class LensSettingsState : SimplePersistentStateComponent<LensSettingsState.State
 		var showUnknownSeverities by property(true)
 		var useEditorFont by property(true)
 		var maxDescriptionLength by property(120)
+		var backgroundOpacity by property(12)
 		var lensHoverMode by enum(LensHoverMode.DEFAULT)
 	}
 	
 	companion object {
 		val MAX_DESCRIPTION_LENGTH_RANGE = 20..1000
+		val BACKGROUND_OPACITY_RANGE = 0 .. 255
 	}
 	
 	@get:Synchronized
@@ -39,6 +41,9 @@ class LensSettingsState : SimplePersistentStateComponent<LensSettingsState.State
 	
 	val maxDescriptionLength
 		get() = state.maxDescriptionLength
+
+	val backgroundOpacity
+		get() = state.backgroundOpacity
 	
 	val lensHoverMode
 		get() = state.lensHoverMode
@@ -46,6 +51,7 @@ class LensSettingsState : SimplePersistentStateComponent<LensSettingsState.State
 	override fun loadState(state: State) {
 		super.loadState(state)
 		state.maxDescriptionLength = state.maxDescriptionLength.coerceIn(MAX_DESCRIPTION_LENGTH_RANGE)
+		state.backgroundOpacity = state.backgroundOpacity.coerceIn(BACKGROUND_OPACITY_RANGE)
 		update()
 	}
 	
@@ -56,6 +62,7 @@ class LensSettingsState : SimplePersistentStateComponent<LensSettingsState.State
 		state.showUnknownSeverities = default.showUnknownSeverities
 		state.useEditorFont = default.useEditorFont
 		state.maxDescriptionLength = default.maxDescriptionLength
+		state.backgroundOpacity = default.backgroundOpacity
 		state.lensHoverMode = default.lensHoverMode
 		
 		update()

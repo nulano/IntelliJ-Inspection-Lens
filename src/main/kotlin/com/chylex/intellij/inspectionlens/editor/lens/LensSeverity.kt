@@ -22,19 +22,20 @@ enum class LensSeverity(baseColor: Color, lightThemeDarkening: Int, darkThemeBri
 	GRAZIE         (Color( 53, 146, 196), lightThemeDarkening = 3, darkThemeBrightening = 1),
 	TYPO           (Color( 73, 156,  84), lightThemeDarkening = 4, darkThemeBrightening = 1),
 	OTHER          (Color(128, 128, 128), lightThemeDarkening = 2, darkThemeBrightening = 2);
-	
+
+	private val lightThemeColor: Color = ColorUtil.saturate(ColorUtil.darker(baseColor, lightThemeDarkening), 1)
+	private val darkThemeColor: Color = ColorUtil.desaturate(ColorUtil.brighter(baseColor, darkThemeBrightening), 2)
+
 	val textAttributes: LensSeverityTextAttributes
-	val lineAttributes: LensSeverityTextAttributes
+
+	fun computeLineAttributes(opacity: Int): LensSeverityTextAttributes {
+		val lineColor = JBColor(toAlpha(lightThemeColor, opacity), toAlpha(darkThemeColor, opacity))
+		return LensSeverityTextAttributes(backgroundColor = lineColor)
+	}
 	
 	init {
-		val lightThemeColor = ColorUtil.saturate(ColorUtil.darker(baseColor, lightThemeDarkening), 1)
-		val darkThemeColor = ColorUtil.desaturate(ColorUtil.brighter(baseColor, darkThemeBrightening), 2)
-		
 		val textColor = JBColor(lightThemeColor, darkThemeColor)
-		val lineColor = JBColor(toAlpha(lightThemeColor, 10), toAlpha(darkThemeColor, 13))
-		
 		textAttributes = LensSeverityTextAttributes(foregroundColor = textColor, fontStyle = Font.ITALIC)
-		lineAttributes = LensSeverityTextAttributes(backgroundColor = lineColor)
 	}
 	
 	companion object {
